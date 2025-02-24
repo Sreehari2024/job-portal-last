@@ -11,7 +11,6 @@ import jobRoutes from './routes/jobRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import { clerkMiddleware } from '@clerk/express'
 
-
 // Initialize Express
 const app = express()
 
@@ -20,14 +19,16 @@ connectDB()
 await connectCloudinary()
 
 // Middlewares
+const frontendURL = process.env.FRONTEND_URL;  // ✅ Use process.env
+
+console.log("Allowed Frontend URL:", frontendURL); // ✅ Debugging
+
 app.use(cors({
-  origin: frontendURL,
+  origin: [frontendURL, "https://job-portal-last-frontend.vercel.app/"], // ✅ Allow production & local dev
   credentials: true,
-}))
+}));
 app.use(express.json())
 app.use(clerkMiddleware())
-
-const frontendURL = process.env.FRONTEND_URL;
 
 // Routes
 app.get('/', (req, res) => res.send("API Working"))
