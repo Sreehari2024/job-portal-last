@@ -20,18 +20,14 @@ connectDB()
 await connectCloudinary()
 
 // Middlewares
-app.use(cors())
+app.use(cors({
+  origin: frontendURL,
+  credentials: true,
+}))
 app.use(express.json())
 app.use(clerkMiddleware())
 
 const frontendURL = process.env.FRONTEND_URL;
-
-app.use(
-  cors({
-    origin: frontendURL,
-    credentials: true,
-  })
-);
 
 // Routes
 app.get('/', (req, res) => res.send("API Working"))
